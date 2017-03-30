@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain:mule-domain
+        xmlns="http://www.mulesoft.org/schema/mule/core"
+        xmlns:domain="http://www.mulesoft.org/schema/mule/domain"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:spring="http://www.springframework.org/schema/beans"
+        xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+        
+         xmlns:http="http://www.mulesoft.org/schema/mule/http"
+         
+         
+            xmlns:db="http://www.mulesoft.org/schema/mule/db"
+         
+        xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/domain http://www.mulesoft.org/schema/mule/domain/current/mule-domain.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd" >
+
+	<spring:beans>
+		
+		<spring:bean id="jdbcdatasource" class="org.enhydra.jdbc.standard.StandardDataSource" destroy-method="shutdown">
+			<spring:property name="driverName" value="oracle.jdbc.driver.OracleDriver"/>
+			<spring:property name="url" value="jdbc:oracle:thin:@DCORA1DB4:1587:nwdevp"/>
+			<spring:property name="user" value="perfios"/>
+			<spring:property name="password" value="perfios"/>	
+		</spring:bean> 
+		
+	</spring:beans>
+	
+    <!-- configure here resource to be shared within the domain -->
+<http:listener-config name="MainDomain_Datasource" host="localhost" port="8899" doc:name="HTTP Listener Configuration" basePath="maindomain_datasource" />
+
+<db:generic-config name="dbconfig1" dataSource-ref="jdbcdatasource" doc:name="Generic Database Configuration"/>
+
+</domain:mule-domain>
